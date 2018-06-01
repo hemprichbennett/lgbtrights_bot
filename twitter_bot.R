@@ -5,7 +5,7 @@ library(here)
 
 setwd(here())
 
-wait_in_r <- T
+wait_in_r <- F
 wait_duration <- 211*60 #Number of seconds to wait if wait_in_r == true
 df <- read.csv('unformatted_rights.csv', stringsAsFactors = F)
 
@@ -25,29 +25,33 @@ while(A==FALSE){
   
   
   string <- df[row_chosen, column_chosen]
+  string <- gsub('\\[.+\\]', '', string) #Get rid of any citations
+  if(nchar(string)<2){
+    next()#Skip any fields which are blank
+  }
   rights_name <- gsub('\\.', ' ', colnames(df)[column_chosen])
   country <- df[row_chosen, 1]
   
-  outstring <- paste(country, '. ', rights_name, ': ', string, sep = '', '#lgbtpride')
+  outstring <- paste(country, '. ', rights_name, ': ', string, sep = '', ' #lgbtpride')
   
   #Now to send the tweet. the 'photo' variable assumes that I one day write the code to download the country's flag 
-  if(photo==T){
-    post_tweet(status = outstring, token = twitter_token,
-               in_reply_to_status_id = NULL, media = './temp.jpg')
-    file.remove('temp.jpg')
-  }else{
-    post_tweet(status = outstring, token = twitter_token,
-               in_reply_to_status_id = NULL)
-  }
+  #if(photo==T){
+  #  post_tweet(status = outstring, token = twitter_token,
+  #             in_reply_to_status_id = NULL, media = './temp.jpg')
+  #  file.remove('temp.jpg')
+  #}else{
+  #  post_tweet(status = outstring, token = twitter_token,
+  #             in_reply_to_status_id = NULL)
+  #}
   
   
-  
+  print(outstring)
   
   #End, or wait for next iteration
   print(Sys.time())
   
   if(wait_in_r==TRUE){
-    Sys.sleep(wait_duration) #The number of seconds to sleep for
+    #Sys.sleep(wait_duration) #The number of seconds to sleep for
   }else{
     A <- TRUE
   }

@@ -12,7 +12,7 @@ df <- read.csv('unformatted_rights.csv', stringsAsFactors = F)
 
 
 ##twitter token should be generated with the instructions here(http://rtweet.info/articles/auth.html), but I found it easier to just load the token rather than making it an environment variable
-twitter_token <- readRDS() #insert token location here
+twitter_token <- readRDS('twitter_token.RDS')
 
 
 A <- FALSE

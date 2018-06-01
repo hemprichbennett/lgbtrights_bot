@@ -5,7 +5,7 @@ library(here)
 
 setwd(here())
 
-wait_in_r <- F
+wait_in_r <- T
 wait_duration <- 211*60 #Number of seconds to wait if wait_in_r == true
 df <- read.csv('unformatted_rights.csv', stringsAsFactors = F)
 
@@ -20,7 +20,7 @@ while(A==FALSE){
   
   
   #Chose the values to tweet
-  column_chosen <- sample(ncol(df), 1)
+  column_chosen <- sample(seq(2,ncol(df)), 1)
   row_chosen <- sample(nrow(df), 1)
   
   
@@ -35,14 +35,14 @@ while(A==FALSE){
   outstring <- paste(country, '. ', rights_name, ': ', string, sep = '', ' #lgbtpride')
   
   #Now to send the tweet. the 'photo' variable assumes that I one day write the code to download the country's flag 
-  #if(photo==T){
-  #  post_tweet(status = outstring, token = twitter_token,
-  #             in_reply_to_status_id = NULL, media = './temp.jpg')
-  #  file.remove('temp.jpg')
-  #}else{
-  #  post_tweet(status = outstring, token = twitter_token,
-  #             in_reply_to_status_id = NULL)
-  #}
+  if(photo==T){
+    post_tweet(status = outstring, token = twitter_token,
+               in_reply_to_status_id = NULL, media = './temp.jpg')
+    file.remove('temp.jpg')
+  }else{
+    post_tweet(status = outstring, token = twitter_token,
+               in_reply_to_status_id = NULL)
+  }
   
   
   print(outstring)
@@ -51,7 +51,7 @@ while(A==FALSE){
   print(Sys.time())
   
   if(wait_in_r==TRUE){
-    #Sys.sleep(wait_duration) #The number of seconds to sleep for
+    Sys.sleep(wait_duration) #The number of seconds to sleep for
   }else{
     A <- TRUE
   }

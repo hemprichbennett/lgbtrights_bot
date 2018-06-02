@@ -46,6 +46,8 @@ while(A==FALSE){
   
   string <- df[row_chosen, column_chosen]
   string <- gsub('\\[.+\\]', '', string) #Get rid of any citations
+  string <- gsub('\\\n', ' ', string) #get rid of any newlines
+  string <- tolower(string)
   if(is.na(string)){
     next()#skip any truly empty fields
   }
@@ -55,7 +57,7 @@ while(A==FALSE){
   rights_name <- gsub('\\.', ' ', colnames(df)[column_chosen])
   country <- df[row_chosen, 1]
   
-  outstring <- paste(country, '. ', rights_name, ': ', tolower(string), sep = '', ' #LGBTQ #equality')
+  outstring <- paste(country, '. ', rights_name, ': ', string, sep = '', ' #LGBTQ #equality')
   
   if(nchar(outstring)<=240){
     tweetable <- T

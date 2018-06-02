@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 twitter_token.RDS
+.DS_Store

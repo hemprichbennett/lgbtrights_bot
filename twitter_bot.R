@@ -3,7 +3,7 @@
 library(rtweet)
 library(here)
 library(jsonlite)
-
+library(rvest)
 
 setwd(here())
 
@@ -55,7 +55,7 @@ while(A==FALSE){
   rights_name <- gsub('\\.', ' ', colnames(df)[column_chosen])
   country <- df[row_chosen, 1]
   
-  outstring <- paste(country, '. ', rights_name, ': ', tolower(string), sep = '', '#LGBTQ #equality')
+  outstring <- paste(country, '. ', rights_name, ': ', tolower(string), sep = '', ' #LGBTQ #equality')
   
   if(nchar(outstring)<=240){
     tweetable <- T

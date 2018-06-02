@@ -2,13 +2,22 @@
 
 library(rtweet)
 library(here)
+library(jsonlite)
+
 
 setwd(here())
 
 wait_in_r <- T
 wait_duration <- 211*60 #Number of seconds to wait if wait_in_r == true
 df <- read.csv('unformatted_rights.csv', stringsAsFactors = F)
+flag <- F
 
+
+
+#Flags files and json sourced from https://github.com/hjnilsson/country-flags
+codes <- fromJSON('countrycodes.json', simplifyVector = FALSE)
+countries <- as.list(names(unlist(codes)))
+names(countries) <- unlist(codes)
 
 
 ##twitter token should be generated with the instructions here(http://rtweet.info/articles/auth.html), but I found it easier to just load the token rather than making it an environment variable
@@ -34,16 +43,24 @@ while(A==FALSE){
   
   outstring <- paste(country, '. ', rights_name, ': ', string, sep = '', ' #lgbtpride')
   
-  #Now to send the tweet. the 'photo' variable assumes that I one day write the code to download the country's flag 
-  if(photo==T){
-    post_tweet(status = outstring, token = twitter_token,
-               in_reply_to_status_id = NULL, media = './temp.jpg')
-    file.remove('temp.jpg')
-  }else{
-    post_tweet(status = outstring, token = twitter_token,
-               in_reply_to_status_id = NULL)
+  
+  if(!is.null(countries[[country]])){ #If we find the country name in the list of countries
+    flag <- T
+    flagname <- paste('png1000px/',countries[[country]] ,'.png', sep='')
   }
   
+  
+  #Now to send the tweet. the 'flag' variable assumes that I one day write the code to download the country's flag 
+  if(flag==T){
+    post_tweet(status = outstring, token = twitter_token,
+               in_reply_to_status_id = NULL, media = flagname)
+  }else{
+  #  post_tweet(status = outstring, token = twitter_token,
+  #             in_reply_to_status_id = NULL)
+  }
+  
+  
+  flag==F #Reset the flag variable in case we can't find it in the next iteration
   
   print(outstring)
   
@@ -51,7 +68,7 @@ while(A==FALSE){
   print(Sys.time())
   
   if(wait_in_r==TRUE){
-    Sys.sleep(wait_duration) #The number of seconds to sleep for
+   # Sys.sleep(wait_duration) #The number of seconds to sleep for
   }else{
     A <- TRUE
   }

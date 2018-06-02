@@ -55,8 +55,8 @@ while(A==FALSE){
     post_tweet(status = outstring, token = twitter_token,
                in_reply_to_status_id = NULL, media = flagname)
   }else{
-  #  post_tweet(status = outstring, token = twitter_token,
-  #             in_reply_to_status_id = NULL)
+    post_tweet(status = outstring, token = twitter_token,
+               in_reply_to_status_id = NULL)
   }
   
   
@@ -68,7 +68,7 @@ while(A==FALSE){
   print(Sys.time())
   
   if(wait_in_r==TRUE){
-   # Sys.sleep(wait_duration) #The number of seconds to sleep for
+    Sys.sleep(wait_duration) #The number of seconds to sleep for
   }else{
     A <- TRUE
   }

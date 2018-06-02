@@ -27,6 +27,9 @@ twitter_token <- readRDS('twitter_token.RDS')
 A <- FALSE
 while(A==FALSE){
   
+  ##In an ideal world I'd have already written a few lines here that pulls the table from (https://en.wikipedia.org/wiki/LGBT_rights_by_country_or_territory#LGBT-related_laws_by_country_or_territory)
+  ##and then saves them as df, to be used below
+  
   
   #Chose the values to tweet
   column_chosen <- sample(seq(2,ncol(df)), 1)

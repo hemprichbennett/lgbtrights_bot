@@ -9,7 +9,6 @@ setwd(here())
 
 wait_in_r <- T
 wait_duration <- 211*60 #Number of seconds to wait if wait_in_r == true
-#df <- read.csv('unformatted_rights.csv', stringsAsFactors = F)
 flag <- F
 
 continents_vec <- c('https://en.wikipedia.org/wiki/Template:LGBT_rights_table_Africa',
@@ -57,10 +56,10 @@ while(A==FALSE){
   }
   rights_name <- gsub('\\.', ' ', colnames(df)[column_chosen])
   country <- df[row_chosen, 1]
-  country <- gsub('\\(', ' \\(', country)
+  country <- gsub(' \\(.+$', '', country)
   country <- gsub('\\\n', ' ', country)
   outstring <- paste(country, '. ', rights_name, ': ', string, ' #LGBTQ #equality', sep = '')
-  
+  country <- 'Puerto Rico (Commonwealth of the United States)'
   if(nchar(outstring)<=240){
     tweetable <- T
   }else{
@@ -73,7 +72,7 @@ while(A==FALSE){
   }
   
   
-  #Now to send the tweet. the 'flag' variable assumes that I one day write the code to download the country's flag 
+  #Now to send the tweet
   if(flag==T){
     post_tweet(status = outstring, token = twitter_token,
                in_reply_to_status_id = NULL, media = flagname)
@@ -85,7 +84,7 @@ while(A==FALSE){
   }
   
   
-  flag==F #Reset the flag variable in case we can't find it in the next iteration
+  flag <- F #Reset the flag variable in case we can't find it in the next iteration
   
   print(outstring)
   

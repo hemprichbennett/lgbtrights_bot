@@ -57,6 +57,7 @@ while(A==FALSE){
   rights_name <- gsub('\\.', ' ', colnames(df)[column_chosen])
   country <- df[row_chosen, 1]
   country <- gsub(' \\(.+$', '', country)
+  country <- gsub('\\(.+$', '', country)
   country <- gsub('\\\n', ' ', country)
   outstring <- paste(country, '. ', rights_name, ': ', string, ' #LGBTQ #equality', sep = '')
   

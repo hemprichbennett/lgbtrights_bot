@@ -59,7 +59,7 @@ while(A==FALSE){
   country <- gsub(' \\(.+$', '', country)
   country <- gsub('\\\n', ' ', country)
   outstring <- paste(country, '. ', rights_name, ': ', string, ' #LGBTQ #equality', sep = '')
-  country <- 'Puerto Rico (Commonwealth of the United States)'
+  
   if(nchar(outstring)<=240){
     tweetable <- T
   }else{

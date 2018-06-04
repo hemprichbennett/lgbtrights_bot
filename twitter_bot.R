@@ -46,6 +46,7 @@ while(A==FALSE){
   string <- df[row_chosen, column_chosen]
   string <- gsub('\\[.+\\]', '', string) #Get rid of any citations
   string <- gsub('\\\n', ' ', string) #get rid of any newlines
+  string <- gsub('\\/', '', string)
   string <- tolower(string)
   string <- gsub(' un ', 'UN', string)
   if(is.na(string)){

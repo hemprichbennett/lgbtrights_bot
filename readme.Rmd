@@ -1,4 +1,5 @@
 Bot tweeting the status of laws relating to LGBT rights in countries around the world. Written by Dave Hemprich-Bennett (hemprich.bennett@gmail.com) after being suggested by Alex Bond (thelabandfield@gmail.com)
 
 Tweets from the account [@WorldLGBTrights](https://twitter.com/WorldLGBTrights)
+
 Flags were downloaded on 02/06/18 from the fantastic resource at [hjnilsson/country-flags](https://github.com/hjnilsson/country-flags)

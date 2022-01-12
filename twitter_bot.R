@@ -25,7 +25,7 @@ names(countries) <- unlist(codes)
 
 
 ## twitter token should be generated with the instructions here(http://rtweet.info/articles/auth.html), but I found it easier to just load the token rather than making it an environment variable
-# twitter_token <- readRDS('twitter_token.RDS')
+ twitter_token <- readRDS('twitter_token.RDS')
 
 
 

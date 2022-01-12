@@ -7,8 +7,6 @@ library(rvest)
 
 setwd(here())
 
-wait_in_r <- F
-wait_duration <- 211 * 60 # Number of seconds to wait if wait_in_r == true
 flag <- F
 
 continents_vec <- c(
@@ -30,73 +28,67 @@ names(countries) <- unlist(codes)
 # twitter_token <- readRDS('twitter_token.RDS')
 
 
-A <- FALSE
-while (A == FALSE) {
-  table_list <- html_table(read_html(continents_vec[sample(length(continents_vec), 1)]), fill = TRUE)
-  table_list <- table_list[which(unlist(lapply(table_list, nrow) > 1))]
 
-  df <- table_list[[sample(length(table_list), 1)]]
+table_list <- html_table(read_html(continents_vec[sample(length(continents_vec), 1)]), fill = TRUE)
+table_list <- table_list[which(unlist(lapply(table_list, nrow) > 1))]
 
-  # Chose the values to tweet
-  column_chosen <- sample(seq(2, ncol(df)), 1)
-  row_chosen <- sample(nrow(df), 1)
+df <- table_list[[sample(length(table_list), 1)]]
 
-
-  string <- df[row_chosen, column_chosen]
-  string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
-  string <- gsub("\\\n", " ", string) # get rid of any newlines
-  string <- gsub("\\/", "", string)
-  string <- tolower(string)
-  string <- gsub(" un ", "UN", string)
-  if (is.na(string)) {
-    next() # skip any truly empty fields
-  }
-  if (nchar(string) < 2) {
-    next() # Skip any fields which are blank
-  }
-  rights_name <- gsub("\\.", " ", colnames(df)[column_chosen])
-  country <- df[row_chosen, 1]
-  country <- gsub(" \\(.+$", "", country)
-  country <- gsub("\\(.+$", "", country)
-  country <- gsub("\\\n", " ", country)
-  outstring <- paste(country, ". ", rights_name, ": ", string, " #LGBTQ #equality", sep = "")
-
-  if (nchar(outstring) <= 240) {
-    tweetable <- T
-  } else {
-    tweetable <- F
-  }
-
-  if (!is.null(countries[[country]])) { # If we find the country name in the list of countries
-    flag <- T
-    flagname <- paste("png1000px/", countries[[country]], ".png", sep = "")
-  }
+# Chose the values to tweet
+column_chosen <- sample(seq(2, ncol(df)), 1)
+row_chosen <- sample(nrow(df), 1)
 
 
-  # #Now to send the tweet
-  if (flag == T) {
-    post_tweet(
-      status = outstring, token = twitter_token,
-      in_reply_to_status_id = NULL, media = flagname
-    )
-  } else {
-    post_tweet(
-      status = outstring, token = twitter_token,
-      in_reply_to_status_id = NULL
-    )
-  }
-
-
-  flag <- F # Reset the flag variable in case we can't find it in the next iteration
-
-  print(outstring)
-
-  # End, or wait for next iteration
-  print(Sys.time())
-
-  if (wait_in_r == TRUE) {
-    Sys.sleep(wait_duration) # The number of seconds to sleep for
-  } else {
-    A <- TRUE
-  }
+string <- df[row_chosen, column_chosen]
+string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
+string <- gsub("\\\n", " ", string) # get rid of any newlines
+string <- gsub("\\/", "", string)
+string <- tolower(string)
+string <- gsub(" un ", "UN", string)
+if (is.na(string)) {
+  next() # skip any truly empty fields
 }
+if (nchar(string) < 2) {
+  next() # Skip any fields which are blank
+}
+rights_name <- gsub("\\.", " ", colnames(df)[column_chosen])
+country <- df[row_chosen, 1]
+country <- gsub(" \\(.+$", "", country)
+country <- gsub("\\(.+$", "", country)
+country <- gsub("\\\n", " ", country)
+outstring <- paste(country, ". ", rights_name, ": ", string, " #LGBTQ #equality", sep = "")
+
+if (nchar(outstring) <= 240) {
+  tweetable <- T
+} else {
+  tweetable <- F
+}
+
+if (!is.null(countries[[country]])) { # If we find the country name in the list of countries
+  flag <- T
+  flagname <- paste("png1000px/", countries[[country]], ".png", sep = "")
+}
+
+
+# #Now to send the tweet
+if (flag == T) {
+  post_tweet(
+    status = outstring, token = twitter_token,
+    in_reply_to_status_id = NULL, media = flagname
+  )
+  print('flag used')
+} else {
+  post_tweet(
+    status = outstring, token = twitter_token,
+    in_reply_to_status_id = NULL
+  )
+  print('flag not used')
+}
+
+
+
+
+print(outstring)
+
+# End
+print(Sys.time())

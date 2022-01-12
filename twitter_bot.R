@@ -46,12 +46,7 @@ while (good_string == F) {
   string <- gsub("\\/", "", string)
   string <- tolower(string)
   string <- gsub(" un ", "UN", string)
-  if (is.na(string)) {
-    next() # skip any truly empty fields
-  }
-  if (nchar(string) < 2) {
-    next() # Skip any fields which are blank
-  } else {
+  if (!is.na(string) && nchar(string)> 1){
     good_string <- T
   }
 }

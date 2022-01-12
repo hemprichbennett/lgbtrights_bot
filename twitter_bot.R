@@ -25,7 +25,7 @@ names(countries) <- unlist(codes)
 
 
 ## twitter token should be generated with the instructions here(http://rtweet.info/articles/auth.html), but I found it easier to just load the token rather than making it an environment variable
- twitter_token <- readRDS('twitter_token.RDS')
+twitter_token <- readRDS("twitter_token.RDS")
 
 
 
@@ -38,18 +38,22 @@ df <- table_list[[sample(length(table_list), 1)]]
 column_chosen <- sample(seq(2, ncol(df)), 1)
 row_chosen <- sample(nrow(df), 1)
 
-
-string <- df[row_chosen, column_chosen]
-string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
-string <- gsub("\\\n", " ", string) # get rid of any newlines
-string <- gsub("\\/", "", string)
-string <- tolower(string)
-string <- gsub(" un ", "UN", string)
-if (is.na(string)) {
-  next() # skip any truly empty fields
-}
-if (nchar(string) < 2) {
-  next() # Skip any fields which are blank
+good_string <- F
+while (good_string == F) {
+  string <- df[row_chosen, column_chosen]
+  string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
+  string <- gsub("\\\n", " ", string) # get rid of any newlines
+  string <- gsub("\\/", "", string)
+  string <- tolower(string)
+  string <- gsub(" un ", "UN", string)
+  if (is.na(string)) {
+    next() # skip any truly empty fields
+  }
+  if (nchar(string) < 2) {
+    next() # Skip any fields which are blank
+  } else {
+    good_string <- T
+  }
 }
 rights_name <- gsub("\\.", " ", colnames(df)[column_chosen])
 country <- df[row_chosen, 1]
@@ -76,13 +80,13 @@ if (flag == T) {
     status = outstring, token = twitter_token,
     in_reply_to_status_id = NULL, media = flagname
   )
-  print('flag used')
+  print("flag used")
 } else {
   post_tweet(
     status = outstring, token = twitter_token,
     in_reply_to_status_id = NULL
   )
-  print('flag not used')
+  print("flag not used")
 }
 
 

@@ -39,7 +39,8 @@ column_chosen <- sample(seq(2, ncol(df)), 1)
 row_chosen <- sample(nrow(df), 1)
 
 good_string <- F
-while (good_string == F) {
+i <- i
+while (good_string == F| i < 100) {
   string <- df[row_chosen, column_chosen]
   string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
   string <- gsub("\\\n", " ", string) # get rid of any newlines
@@ -49,6 +50,7 @@ while (good_string == F) {
   if (!is.na(string) && nchar(string)> 1){
     good_string <- T
   }
+  i <- i + 1
 }
 rights_name <- gsub("\\.", " ", colnames(df)[column_chosen])
 country <- df[row_chosen, 1]

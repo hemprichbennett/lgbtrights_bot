@@ -39,7 +39,7 @@ column_chosen <- sample(seq(2, ncol(df)), 1)
 row_chosen <- sample(nrow(df), 1)
 
 good_string <- F
-i <- i
+i <- 1
 while (good_string == F| i < 100) {
   string <- df[row_chosen, column_chosen]
   string <- gsub("\\[.+\\]", "", string) # Get rid of any citations
@@ -68,6 +68,8 @@ if (nchar(outstring) <= 240) {
 if (!is.null(countries[[country]])) { # If we find the country name in the list of countries
   flag <- T
   flagname <- paste("png1000px/", countries[[country]], ".png", sep = "")
+  flagname <- tolower(flagname)
+  print(flagname)
 }
 
 
